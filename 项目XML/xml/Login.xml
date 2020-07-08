@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<all>
+  <Login>
+    <id>33</id>
+    <name>33</name>
+    <type>普通用户</type>
+  </Login>
+  <Login>
+    <id>22</id>
+    <name>22</name>
+    <type>普通用户</type>
+  </Login>
+  <Login>
+    <id>55</id>
+    <name>555</name>
+    <type>普通用户</type>
+  </Login>
+  <Login>
+    <id>333</id>
+    <name>333</name>
+    <type>管理员</type>
+  </Login>
+  <Login>
+    <id>11</id>
+    <name>11</name>
+    <type>管理员</type>
+  </Login>
+</all>

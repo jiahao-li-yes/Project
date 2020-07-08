@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+	<meta charset="utf-8" />
+    <link rel="stylesheet" href="../css/Words.css">
+</head>
+
+<body>
+    <div class="title">
+    <p>管理员空间——英文字典</p>
+    </div>
+
+            <div class="content">
+                <div class="center">
+        <br /><br />
+                    <p>新单词</p>
+        <br />
+                    编号：<input type="text" id="add_input" placeholder="输入单词的编号">
+        <br><br>
+                    英文单词：<input type="text" id="add_input1" placeholder="输入英文单词">
+        <br><br>
+                    中文含义：<input type="text" id="add_input2" placeholder="输入中文含义">
+        <br><br>
+                    例句：<input type="text" id="add_input3" placeholder="输入例句">
+        <br>
+                    <a href="javascript:void(false)" id="ip1" onclick="add()">添加</a>
+                </div>
+            </div>
+<br />
+    <div class="overview">
+      <a href="javascript:void(false)" id="input1" onclick="display()">查看英文词库</a>
+<br><br>
+    </div> 
+
+    <div class="change">
+        <p>修改单词数据</p>
+<br>
+        <div class="find1" id="find_html" style="width:800px;margin:0 auto">
+<!--            <img src="../img/4.png" alt="Alternate Text" style="width:800px"/>-->
+        </div>
+<br>
+           <div class="change_center">
+               <p>选择你要修改的单词数据</p>
+<br />
+               <div class="cha">
+                <input type="text" id="text1" placeholder="输入旧单词的编号"/>
+
+                <a href="javascript:void(false)" id="input2" onclick="find()" >查找</a>
+               </div>
+<br><br />
+                    
+               <div class="float">
+                   <p>你想修改的数据</p>
+<br />
+                   品牌：<input type="text" id="text2" placeholder="输入英文单词">
+                   <br><br>
+                   车型：<input type="text" id="text3" placeholder="输入中文含义">
+                   <br><br>
+                   价格：<input type="text" id="text4" placeholder="输入例句">
+                   <a href="javascript:void(false)" id="input3" onclick="update()">修改</a>
+               </div>
+
+               <div class="delete">
+                   <div class="delete_center">
+                       <p>删除没用的单词</p>
+                       <br>
+                       <input type="text" id="text5" placeholder="请输入编号" />
+                       <a href="javascript:void(false)" id="input4" onclick="delete_xml()">删除</a>
+                   </div>
+               </div>
+
+
+           </div>                 
+    </div>
+</body>
+</html>
+<script src="../js/jquery.js"></script>
+<script src="../js/XBL_2.0.js"></script>
+<script type="text/javascript">
+
+    //显示
+    function display() {
+        window.location = "../xml/Words.xml";
+        //$.ajax({
+        //    url: "../ashx/display.ashx",
+        //    data: {},
+        //    success: function (re_text) {
+        //        array_create_table(["编号", "品牌", "车型","价格"], ["number", "brand", "type","price"], $(re_text), "display");
+        //    }
+        //})
+    }
+    //查找
+    function find() {
+        var o_find = $('#text1').val();
+        $.ajax({
+            url: "../ashx/find.ashx",
+            data: { d1: o_find },
+            success: function (re_text) {
+                if (re_text == 0) {
+                    alert("没有搜索到你所要的单词");
+                }else{
+                    alert("查找成功");
+                    array_create_table(["编号", "英文单词", "中文含义", "例句"], ["number", "Englishwords", "Chinesemeaning", "Examplesentence"], $(re_text), "find_html");
+                }      
+            }
+        })
+    }
+    //添加
+    function add() {
+        //alert("asd");
+        var v_NB = $("#add_input").val();
+        var v_PP = $("#add_input1").val();
+        var v_CX = $("#add_input2").val();
+        var v_JG = $("#add_input3").val();
+        $.ajax({
+            url: "../ashx/add.ashx",
+            data: { d1: v_NB, d2: v_PP, d3: v_CX, d4:v_JG },
+            success: function (re_msg) { alert(re_msg); }
+        })
+    }
+    //修改
+    function update() {
+        var old_text1 = $("#text1").val();
+        var new_text2 = $("#text2").val();
+        var new_text3 = $("#text3").val();
+        var new_text4 = $("#text4").val();
+
+        var con;
+        con = confirm("你确定要更新吗?");
+        if (con == true) {
+            $.ajax({
+                url: "../ashx/update.ashx",
+                data: { d1: old_text1, d2: new_text2, d3: new_text3, d4: new_text4 },
+                success: function (re_data) {
+                    alert(re_data);
+                }
+            })
+        }else alert("更新失败")
+    }
+    //删除
+    function delete_xml(){
+        var SS_key = $("#text5").val();
+        var con;
+            con = confirm("你确定要删除吗?");
+            if (con == true) {
+                $.ajax({
+                    url: "../ashx/delete.ashx",
+                    data: { d1: SS_key },
+                    success: function (re_msg) {
+                        if(re_msg == 0){
+                            alert("删除失败")
+                        } else if (re_msg == 1) {
+                            alert("删除成功")
+                        }
+                    }
+                })
+            } else alert("删除失败"); 
+        }
+</script>
+
+
+
+
+
+
+
+
